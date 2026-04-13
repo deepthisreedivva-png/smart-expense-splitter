@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Expense Splitter</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+
+<body class="bg-light">
+
+<div class="container mt-5">
+
+    <h2 class="mb-4 text-center">Expense Splitter</h2>
+
+    <div class="text-end mb-3">
+        <a href="/reset" class="btn btn-danger">Reset</a>
+    </div>
+
+    <!-- FORM -->
+    <form action="/add" method="post" class="row g-2 mb-4">
+
+        <div class="col">
+            <input name="name" class="form-control" placeholder="Expense Name" required>
+        </div>
+
+        <div class="col">
+            <input name="amount" type="number" class="form-control" placeholder="Total Amount" required>
+        </div>
+
+        <div class="col">
+            <input name="paid_by" class="form-control" placeholder="Who Paid (a,b)" required>
+        </div>
+
+        <div class="col">
+            <input name="paid_amounts" class="form-control" placeholder="Amounts (700,300)" required>
+        </div>
+
+        <div class="col">
+            <input name="members" class="form-control" placeholder="Members (a,b,c)" required>
+        </div>
+
+        <div class="col">
+            <button class="btn btn-primary">Add</button>
+        </div>
+
+    </form>
+
+    <!-- EXPENSES -->
+    <div class="card p-3 mb-4">
+        <h4>Expenses</h4>
+        <ul class="list-group">
+            {% for e in expenses %}
+            <li class="list-group-item">
+                {{ e.name }} - ₹{{ e.amount }} 
+                (Paid by 
+                {% for p, amt in e.paid_by.items() %}
+                    {{ p }}:₹{{ amt }} 
+                {% endfor %}
+                )
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <!-- BALANCES -->
+    <div class="card p-3 mb-4">
+        <h4>Balances</h4>
+        <ul class="list-group">
+            {% for p, amt in balances.items() %}
+            <li class="list-group-item d-flex justify-content-between">
+                <span>{{ p }}</span>
+                <span>₹{{ amt }}</span>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <!-- SETTLEMENT -->
+    <div class="card p-3">
+        <h4>Settlement</h4>
+        <ul class="list-group">
+            {% for t in transactions %}
+            <li class="list-group-item text-success">
+                {{ t }}
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+
+</div>
+
+</body>
+</html>
